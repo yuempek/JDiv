@@ -1,4 +1,4 @@
-package con.yuempek.jdiv;
+package com.yuempek.jdiv;
 
 import java.awt.Color;
 import java.awt.Component;
