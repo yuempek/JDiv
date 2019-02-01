@@ -57,4 +57,87 @@ public class Div {
         this.createPanels();
     }
 
+    
+    public void setDefaults() {
+        this.padding(0);
+        this.border(0);
+        this.margin(0);
+        this.floating(Floating.NONE);
+        this.width(0);
+        this.height(0);
+        this.borderColor = Color.DARK_GRAY;
+        this.left = 0;
+        this.top = 0;
+        this.right = 0;
+        this.bottom = 0;
+        this.contentPanelLayout = null;
+    }
+    
+    public Div padding(int ltrbPixel) {
+        this.padding(ltrbPixel, ltrbPixel, ltrbPixel, ltrbPixel);
+        return this;
+    }
+    
+    public Div padding(int lrPixel, int tbPixel) {
+        this.padding(lrPixel, tbPixel, lrPixel, tbPixel);
+        return this;
+    }
+    
+    public Div padding(int leftPixel, int topPixel, int rightPixel, int bottomPixel) {
+        this.paddingLeft = leftPixel;
+        this.paddingTop = topPixel;
+        this.paddingRight = rightPixel;
+        this.paddingBottom = bottomPixel;
+        
+        return this;
+    }
+    
+    public Div border(int ltrbPixel) {
+        this.border(ltrbPixel, ltrbPixel, ltrbPixel, ltrbPixel);
+        return this;
+    }
+    
+    public Div border(int ltrbPixel, Color borderColor) {
+        this.border(ltrbPixel, ltrbPixel, ltrbPixel, ltrbPixel, borderColor);
+        return this;
+    }
+    
+    public Div border(int leftPixel, int topPixel, int rightPixel, int bottomPixel) {
+         border(leftPixel, topPixel, rightPixel, bottomPixel, this.borderColor);
+        return this;
+    }
+    
+    public Div border(int leftPixel, int topPixel, int rightPixel, int bottomPixel, Color borderColor) {
+        this.borderColor =  borderColor;
+        
+        this.borderLeft = leftPixel;
+        this.borderTop = topPixel;
+        this.borderRight = rightPixel;
+        this.borderBottom = bottomPixel;
+        
+        return this;
+    }
+    
+    
+    public Div margin(int ltrbPixel) {
+        this.margin(ltrbPixel, ltrbPixel, ltrbPixel, ltrbPixel);
+        return this;
+    }
+    
+    public Div margin(int lrPixel, int tbPixel) {
+        this.margin(lrPixel, tbPixel, lrPixel, tbPixel);
+        return this;
+    }
+    
+    public Div margin(int leftPixel, int topPixel, int rightPixel, int bottomPixel) {
+        this.marginLeft = leftPixel;
+        this.marginTop = topPixel;
+        this.marginRight = rightPixel;
+        this.marginBottom = bottomPixel;
+        
+        return this;
+    }
+    
+    
+    
 }
