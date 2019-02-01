@@ -1,7 +1,7 @@
 package con.yuempek.jdiv;
 
 import java.awt.Color;
-import java.awt.Componenet;
+import java.awt.Component;
 import java.awt.LayoutManager;
 
 import javax.swing.JPanel;
@@ -138,6 +138,74 @@ public class Div {
         return this;
     }
     
+    public Div addComponent(Component comp) {
+        this.addComponent(comp, "default");
+    
+        return this;
+    }
+    
+    public Div addComponent(Component comp, String className) {
+        //TODO add to hastable to modify from className
+        this.contentPanel.add(comp);
+    
+        return this;
+    }
+    
+    
+    public Div floating(Floating floating) {
+        this.floating = floating;
+        return this;
+    }
+    
+    public Div width(int width) {
+        this.width = width;
+        return this;
+    }
+    
+    public Div height(int height) {
+        this.height = height;
+        return this;
+    }
+    
+    public Div position(int x, int y) {
+        this.position(x, y, -1, -1);
+        return this;
+    }
+    
+    public Div position(int left, int top, int right, int bottom) {
+        this.left = left;
+        this.top = top;
+        this.right = right;
+        this.bottom = bottom;
+        
+        return this;
+    }
+    
+    public Div setBorder(Border border) {
+        this.contentPanel.setBorder(border);
+        return this;
+    }
+    
+    public Div setLayout(LayoutManager layout) {
+        this.contentPanel.setLayout(layout);
+        return this;
+    }
+    
+    public void createPanels() {
+        this.marginPanel = new JPanel();
+        this.borderPanel = new JPanel();
+        this.paddingPanel = new JPanel();
+        this.contentPanel = new JPanel();
+
+        this.marginPanel.add(this.borderPanel);
+        this.borderPanel.add(this.paddingPanel);
+        this.paddingPanel.add(this.contentPanel);
+
+        this.marginPanel.setLayout(null);
+        this.borderPanel.setLayout(null);
+        this.paddingPanel.setLayout(null);
+        this.contentPanel.setLayout(this.contentPanelLayout);
+    }
     
     
 }
