@@ -207,5 +207,48 @@ public class Div {
         this.contentPanel.setLayout(this.contentPanelLayout);
     }
     
-    
+    public void reshape() {
+        
+        int w = this.width;
+        int h = this.height;
+        this.marginPanel.setSize(w, h);
+        
+        w -= this.marginLeft + this.marginRight;
+        h -= this.marginTop + this.marginBottom;
+        this.borderPanel.setSize(w, h);
+        
+        w -= this.borderLeft + this.borderRight;
+        h -= this.borderTop + this.borderBottom;
+        this.paddingPanel.setSize(w, h);
+        
+        w -= this.paddingLeft + this.paddingRight;
+        h -= this.paddingTop + this.paddingBottom;
+        this.contentPanel.setSize(w, h);
+        
+        int x = this.left;
+        int y = this.top;
+        this.marginPanel.setLocation(x, y);
+
+        x = this.marginLeft;
+        y = this.marginTop;
+        this.borderPanel.setLocation(x, y);
+        
+        x = this.borderLeft;
+        y = this.borderTop;
+        this.paddingPanel.setLocation(x, y);
+        
+        x = this.paddingLeft;
+        y = this.paddingTop;
+        this.contentPanel.setLocation(x, y);
+        
+        this.marginPanel.setBorder(new EmptyBorder(this.marginTop, this.marginLeft, this.marginBottom, this.marginRight));
+        this.paddingPanel.setBorder(new EmptyBorder(this.paddingTop, this.paddingLeft, this.paddingBottom, this.paddingRight));
+        this.borderPanel.setBorder(new MatteBorder(this.borderTop, this.borderLeft, this.borderBottom, this.borderRight, this.borderColor));
+        
+        if (this.children != null) {
+            for (Div child : this.children) {
+                child.reshape;
+            }
+        }
+    }
 }
