@@ -2,18 +2,33 @@ package com.yuempek.jdiv;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.LayoutManager;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-public class Div {
+public class Div extends JPanel {
+    
+    private static final long serialVersionUID = 7196291179716777236L;
+    private static Div divInstance = new Div();
+    public static String getClassName() {
+        return Div.divInstance.getClass().getName(); 
+    }
+    
     public int paddingLeft, paddingTop, paddingRight, paddingBottom;
     public int marginLeft, marginTop, marginRight, marginBottom;
     public int borderLeft, borderTop, borderRight, borderBottom;
-
+    public int left, top, right, bottom;
+    public int height, width;
+    
+    public SizeUnit leftUnit, topUnit, rightUnit, bottomUnit;
+    public SizeUnit heightUnit, widthUnit;
+    
     public JPanel marginPanel;
     public JPanel borderPanel;
     public JPanel paddingPanel;
@@ -30,7 +45,7 @@ public class Div {
     public LayoutManager contentPanelLayout;
     
     public Div() {
-        this((LayoutManager) null, (Div[]) null);
+        this(new DivLayout(), (Div[]) null);
     }
     
     public Div(LayoutManager layout) {
@@ -38,39 +53,60 @@ public class Div {
     }
     
     public Div(Div... children) {
-        this((LayoutManager) null, children);
+        this(new DivLayout(), children);
     }
     
     public Div(LayoutManager layout, Div... children) {
-        this.setDefaults();
-        
         if (layout != null) this.contentPanelLayout = layout;
-        
-        if (children != null) {
-            this.children = children;
-            
-            for (Div child : children) {
-                child.parent = this;
-            }
+        if (children == null) {
+            this.contentPanelLayout = new GridLayout();
         }
         
         this.createPanels();
+        this.setDefaults();
+        
+        if (children != null) {
+            this.children = children;
+            for (Div child : children) {
+                child.parent = this;
+                this.addComponent(child);
+            }
+        }
+        
+        this.drawBorders();
     }
 
     
     public void setDefaults() {
-        this.padding(0);
+        this.padding(5);
         this.border(0);
         this.margin(0);
         this.floating(Floating.NONE);
-        this.width(0);
-        this.height(0);
-        this.borderColor = Color.DARK_GRAY;
+        this.width(-1, SizeUnit.AUTO);
+        this.height(-1, SizeUnit.AUTO);
+        this.borderColor = Color.GRAY;
         this.left = 0;
         this.top = 0;
         this.right = 0;
         this.bottom = 0;
-        this.contentPanelLayout = null;
+    }
+    
+    public void createPanels() {
+        GridLayout gapLayout = new GridLayout();
+        
+        this.marginPanel = this;
+        this.borderPanel = new JPanel();
+        this.paddingPanel = new JPanel();
+        this.contentPanel = new JPanel();
+
+        this.marginPanel.add(this.borderPanel);
+        this.borderPanel.add(this.paddingPanel);
+        this.paddingPanel.add(this.contentPanel);
+
+        this.marginPanel.setLayout(gapLayout);
+        this.borderPanel.setLayout(gapLayout);
+        this.paddingPanel.setLayout(gapLayout);
+        this.contentPanel.setLayout(this.contentPanelLayout);
     }
     
     public Div padding(int ltrbPixel) {
@@ -88,6 +124,8 @@ public class Div {
         this.paddingTop = topPixel;
         this.paddingRight = rightPixel;
         this.paddingBottom = bottomPixel;
+        
+        this.drawBorders();
         
         return this;
     }
@@ -115,6 +153,8 @@ public class Div {
         this.borderRight = rightPixel;
         this.borderBottom = bottomPixel;
         
+        this.drawBorders();
+        
         return this;
     }
     
@@ -135,19 +175,24 @@ public class Div {
         this.marginRight = rightPixel;
         this.marginBottom = bottomPixel;
         
+        this.drawBorders();
+        
+        return this;
+    }
+    
+    public Div addComponent(String label) {
+        this.addComponent(new JLabel(label));
         return this;
     }
     
     public Div addComponent(Component comp) {
         this.addComponent(comp, "default");
-    
         return this;
     }
     
     public Div addComponent(Component comp, String className) {
         //TODO add to hastable to modify from className
         this.contentPanel.add(comp);
-    
         return this;
     }
     
@@ -157,14 +202,76 @@ public class Div {
         return this;
     }
     
-    public Div width(int width) {
+    
+    
+    public Div width(int widthPixel) {
+        return width(widthPixel, SizeUnit.PIXEL);
+    }
+
+    public Div width(float widthPercentage) {
+        if (widthPercentage < 0) widthPercentage = 0;
+        if (widthPercentage > 1) widthPercentage = 1;
+        
+        int percentage = (int)(widthPercentage * 100);
+        return width(percentage, SizeUnit.PERCENTAGE);
+    }
+    
+    public Div width(SizeUnit unit) {
+        return width(this.width, unit);
+    }
+    
+    public Div width(int width, SizeUnit unit) {
         this.width = width;
+        this.widthUnit = unit;
+        
+        this.sizeChanged();
+        
         return this;
     }
     
-    public Div height(int height) {
+    
+    
+    public Div height(int heightPixel) {
+        return height(heightPixel, SizeUnit.PIXEL);
+    }
+
+    public Div height(float heightPercentage) {
+        if (heightPercentage < 0) heightPercentage = 0;
+        if (heightPercentage > 1) heightPercentage = 1;
+        
+        int percentage = (int)(heightPercentage * 100);
+        return height(percentage, SizeUnit.PERCENTAGE);
+    }
+    
+    public Div height(SizeUnit unit) {
+        return height(this.height, unit);
+    }
+    
+    public Div height(int height, SizeUnit unit) {
         this.height = height;
+        this.heightUnit = height;
+        
+        this.sizeChanged();
+        
         return this;
+    }
+    
+    private void sizeChanged() {
+        Dimension d = null;
+        
+        if (this.isAbsolute()) {
+            d = new Dimension(this.width, this.height);
+        }
+        
+        // if d is null prefferedSize will be calculated every time. 
+        this.setPrefferedSize(d);
+    }
+    
+    
+    private boolean isAbsolute() {
+        if (this.heightUnit == SizeUnit.PIXEL && this.widhtUnit == SizeUnit.PIXEL)
+            return true;
+        return false;
     }
     
     public Div position(int x, int y) {
@@ -181,74 +288,22 @@ public class Div {
         return this;
     }
     
-    public Div setBorder(Border border) {
+    public Div border(Border border) {
         this.contentPanel.setBorder(border);
         return this;
     }
     
-    public Div setLayout(LayoutManager layout) {
+    public Div layout(LayoutManager layout) {
         this.contentPanel.setLayout(layout);
         return this;
     }
     
-    public void createPanels() {
-        this.marginPanel = new JPanel();
-        this.borderPanel = new JPanel();
-        this.paddingPanel = new JPanel();
-        this.contentPanel = new JPanel();
-
-        this.marginPanel.add(this.borderPanel);
-        this.borderPanel.add(this.paddingPanel);
-        this.paddingPanel.add(this.contentPanel);
-
-        this.marginPanel.setLayout(null);
-        this.borderPanel.setLayout(null);
-        this.paddingPanel.setLayout(null);
-        this.contentPanel.setLayout(this.contentPanelLayout);
-    }
-    
-    public void reshape() {
-        
-        int w = this.width;
-        int h = this.height;
-        this.marginPanel.setSize(w, h);
-        
-        w -= this.marginLeft + this.marginRight;
-        h -= this.marginTop + this.marginBottom;
-        this.borderPanel.setSize(w, h);
-        
-        w -= this.borderLeft + this.borderRight;
-        h -= this.borderTop + this.borderBottom;
-        this.paddingPanel.setSize(w, h);
-        
-        w -= this.paddingLeft + this.paddingRight;
-        h -= this.paddingTop + this.paddingBottom;
-        this.contentPanel.setSize(w, h);
-        
-        int x = this.left;
-        int y = this.top;
-        this.marginPanel.setLocation(x, y);
-
-        x = this.marginLeft;
-        y = this.marginTop;
-        this.borderPanel.setLocation(x, y);
-        
-        x = this.borderLeft;
-        y = this.borderTop;
-        this.paddingPanel.setLocation(x, y);
-        
-        x = this.paddingLeft;
-        y = this.paddingTop;
-        this.contentPanel.setLocation(x, y);
+    public void drawBorders() {
+        //this.marginPanel.setBorder(new MatteBorder(this.marginTop, this.marginLeft, this.marginBottom, this.marginRight, Color.BLUE));
+        //this.paddingPanel.setBorder(new MatteBorder(this.paddingTop, this.paddingLeft, this.paddingBottom, this.paddingRight, Color.GREEN));
         
         this.marginPanel.setBorder(new EmptyBorder(this.marginTop, this.marginLeft, this.marginBottom, this.marginRight));
         this.paddingPanel.setBorder(new EmptyBorder(this.paddingTop, this.paddingLeft, this.paddingBottom, this.paddingRight));
         this.borderPanel.setBorder(new MatteBorder(this.borderTop, this.borderLeft, this.borderBottom, this.borderRight, this.borderColor));
-        
-        if (this.children != null) {
-            for (Div child : this.children) {
-                child.reshape;
-            }
-        }
     }
 }
