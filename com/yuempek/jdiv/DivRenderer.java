@@ -14,7 +14,7 @@ public class DivRenderer {
     public JPanel render() {
         panel.removeAll();
         panel = this.render(this.root);
-        this.root.reshape();
+        //this.root.reshape();
         
         return panel;
     }
@@ -46,14 +46,14 @@ public class DivRenderer {
                 }
                 
                 if (totalWidth < (divChild.width + divChild.left)) {
-                    totalWidth = (divChild.width + divChild.left)
+                    totalWidth = (divChild.width + divChild.left);
                 }
 
                 if (totalHeight < (divChild.height + divChild.top)) {
-                    totalHeight = (divChild.height + divChild.top)
+                    totalHeight = (divChild.height + divChild.top);
                 }
                 
-                horihorizontalFloatingPointX = divChild.width + divChild.left;
+                horizontalFloatingPointX = divChild.width + divChild.left;
             }
         }
         
@@ -68,10 +68,10 @@ public class DivRenderer {
                        div.paddingTop + div.paddingBottom;
                       
         if (div.width < totalWidth) 
-            div.width = totalWidth
+            div.width = totalWidth;
             
         if (div.height < totalHeight) 
-            div.height = totalHeight
+            div.height = totalHeight;
         
         return divPanel;
     }

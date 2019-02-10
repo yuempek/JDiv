@@ -249,7 +249,7 @@ public class Div extends JPanel {
     
     public Div height(int height, SizeUnit unit) {
         this.height = height;
-        this.heightUnit = height;
+        this.heightUnit = unit;
         
         this.sizeChanged();
         
@@ -264,12 +264,12 @@ public class Div extends JPanel {
         }
         
         // if d is null prefferedSize will be calculated every time. 
-        this.setPrefferedSize(d);
+        this.setPreferredSize(d);
     }
     
     
     private boolean isAbsolute() {
-        if (this.heightUnit == SizeUnit.PIXEL && this.widhtUnit == SizeUnit.PIXEL)
+        if (this.heightUnit == SizeUnit.PIXEL && this.widthUnit == SizeUnit.PIXEL)
             return true;
         return false;
     }

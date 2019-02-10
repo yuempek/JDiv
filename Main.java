@@ -8,8 +8,10 @@ public class Main {
         
         int appWidth = 500;
         int appHeight = 500;
+        
+        int defaultHeight = 35;
+        int defaultButtonWidth = 200;
 
-        GridLayout layout = new GridLayout();
         
         Div root = new Div(
                        new Div(
@@ -72,7 +74,7 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new DivLayout());
         
-        JPanel panel = renderer.render();
+        //JPanel panel = renderer.render();
         frame.add(root);
         
         frame.setSize(appWidth, appHeight);

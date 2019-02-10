@@ -1,24 +1,24 @@
 package com.yuempek.jdiv;
 
-import jawa.awt.Componenet;
-import jawa.awt.Container;
-import jawa.awt.Dimension;
-import jawa.awt.Insets;
-import jawa.awt.LayoutManager;
-import jawa.awt.Point;
-import jawa.util.ArrayList;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.Point;
+import java.util.ArrayList;
 
 public class DivLayout implements LayoutManager {
   public DivLayout() {}
   
   @Override
-  public void addLayoutComponenet(String name, Componenet comp) {}
+  public void addLayoutComponent(String name, Component comp) {}
   
   @Override
-  public void removeLayoutComponent(Componenet comp) {}
+  public void removeLayoutComponent(Component comp) {}
   
   @Override
-  public Dimension minimumLayoutSize() { return null; }
+  public Dimension minimumLayoutSize(Container parent) { return null; }
   
   @Override
   public Dimension preferredLayoutSize(Container container) {
@@ -29,7 +29,7 @@ public class DivLayout implements LayoutManager {
       
       w = h = 0;
       
-      for (int i = 0; i < componenetCounts; i++) {
+      for (int i = 0; i < componentCounts; i++) {
         Component c = container.getComponent(i);
         Dimension d = c.getPreferredSize();
         w = Math.max(w, d.width + c.getX());
@@ -37,7 +37,7 @@ public class DivLayout implements LayoutManager {
       }
       
       return new Dimension(insets.left + insets.right + w,
-                           insets.top + insets.bottom + h,)
+                           insets.top + insets.bottom + h);
     }
   }
   
@@ -51,7 +51,7 @@ public class DivLayout implements LayoutManager {
       int componentCount = container.getComponentCount();
       
       for (int i = 0; i < componentCount; i++) {
-        Componenet child = container.getComponent(i);
+        Component child = container.getComponent(i);
         if (child.isVisible()) {
           if (child.getClass().getName() == Div.getClassName()) {
             divComponents.add((Div) child);
@@ -66,7 +66,7 @@ public class DivLayout implements LayoutManager {
       Point horizontalFloatingPoint_LtR = new Point(0, 0);
       Point horizontalFloatingPoint_RtL = new Point(maxwidth, 0);
       
-      componentCount = divComponenets.size();
+      componentCount = divComponents.size();
       
       for (int i = 0; i < componentCount; i++) {
         Div divChild = divComponents.get(i);
@@ -133,4 +133,6 @@ public class DivLayout implements LayoutManager {
       }
     }
   }
+
+
 }
