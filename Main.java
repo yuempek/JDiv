@@ -77,19 +77,19 @@ public class Main {
                        ,
                        new Div(
                            new Div()
-                               .addComponent("1.row width (10px margin) (20px padding (default)) (1px border)")
+                               .addComponent("1.row with (10px margin) (20px padding (default)) (1px border)")
                                .border(1).margin(10).padding(20)
                            ,
                            new Div()
-                           	   .addComponent("2.row width (5px margin) (5px padding (default)) (1px border)")
+                           	   .addComponent("2.row with (5px margin) (5px padding (default)) (1px border)")
                                .border(1).margin(5)
                                ,
                            new Div()
-                           	   .addComponent("3.row width (0px margin) (0px padding) (1px border)")
+                           	   .addComponent("3.row with (0px margin) (0px padding) (1px border)")
                                .border(1).padding(0)
                                ,
                            new Div()
-                           	   .addComponent("4.row width (-1px margin) (0px padding) (1px border)")
+                           	   .addComponent("4.row with (-1px margin) (0px padding) (1px border)")
                                .border(1).padding(0).margin(-1)
                        ).border(1).margin(0, 20).padding(0)
                        ,
