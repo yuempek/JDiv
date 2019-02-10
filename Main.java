@@ -21,7 +21,7 @@ public class Main {
 
         
         Div root = new Div(
-		               new Div().addComponent("Structure of the div")
+		               new Div().addComponent("Structure & examples of the JDiv")
 		     		   ,
 					   new Div(
 		         		   new Div(
@@ -77,17 +77,21 @@ public class Main {
                        ,
                        new Div(
                            new Div()
-                               .addComponent("1.row width (10px margin) (10px padding (default)) (1px border)")
-                               .border(1).margin(10).padding(10)
+                               .addComponent("1.row width (10px margin) (20px padding (default)) (1px border)")
+                               .border(1).margin(10).padding(20)
                            ,
                            new Div()
                            	   .addComponent("2.row width (5px margin) (5px padding (default)) (1px border)")
                                .border(1).margin(5)
-                           ,
+                               ,
                            new Div()
-                           	   .addComponent("3.row width 5px margin 5px padding 1px border")
-                               .border(1)
-                       ).border(1).margin(0, 20)
+                           	   .addComponent("3.row width (0px margin) (0px padding) (1px border)")
+                               .border(1).padding(0)
+                               ,
+                           new Div()
+                           	   .addComponent("4.row width (-1px margin) (0px padding) (1px border)")
+                               .border(1).padding(0).margin(-1)
+                       ).border(1).margin(0, 20).padding(0)
                        ,
                        new Div(
                            new Div()
