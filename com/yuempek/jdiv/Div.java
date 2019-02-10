@@ -8,7 +8,7 @@ import java.awt.LayoutManager;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
+//import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
@@ -288,10 +288,10 @@ public class Div extends JPanel {
         return this;
     }
     
-    public Div border(Border border) {
-        this.contentPanel.setBorder(border);
-        return this;
-    }
+//    public Div border(Border border) {
+//        this.contentPanel.setBorder(border);
+//        return this;
+//    }
     
     public Div layout(LayoutManager layout) {
         this.contentPanel.setLayout(layout);

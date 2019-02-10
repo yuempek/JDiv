@@ -1,40 +1,46 @@
-import java.awt.*;
-import javax.swing.*;
-import com.yuempek.jdiv.*;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
+import com.yuempek.jdiv.Div;
+import com.yuempek.jdiv.Floating;
+import com.yuempek.jdiv.SizeUnit;
 
 public class Main {
     
     public static void main(String[] args) throws Exception {
         
-        int appWidth = 500;
-        int appHeight = 500;
+        int appWidth = 800;
+        int appHeight = 600;
         
         int defaultHeight = 35;
         int defaultButtonWidth = 200;
 
         
         Div root = new Div(
-                       new Div(
-                           new Div()
-                               .addComponent(new JButton("Test Button"))
-                               .padding(5).border(5).margin(5)
-                           ,
-                           new Div()
-                               .addComponent("JLabel text")
-                               .padding(5, 20).border(5, 10, 15, 20).margin(5)
-                               .width(200).height(200)
-                           ,
-                           new Div()
-                               .floating(Floating.LEFT)
-                               .width(100).height(400)
-                               .padding(5).border(5).margin(5)
-                           ,
-                           new Div()
-                               .floating(Floating.RIGHT)
-                               .width(200).height(200)
-                               .padding(5).border(5).margin(5)
-                       ).padding(5, 20)
-                       ,
+		               new Div().addComponent("Structure of the div")
+		     		   ,
+					   new Div(
+		         		   new Div(
+	         				   new Div().addComponent("Margin Panel").padding(0, 0, 0, 15)
+			         		   ,
+		             		   new Div(
+					               new Div().addComponent("Border Panel").padding(0, 0, 0, 15)
+			             		   ,
+		         				   new Div(
+			                 		   new Div().addComponent("Padding Panel").padding(0, 0, 0, 15)
+			                 		   ,
+		     						   new Div(
+			                     		   new Div().addComponent("Content Panel").padding(0, 0, 0, 15)
+			                     	   ).border(1).width(150).height(100)
+		         				   ).border(1).width(SizeUnit.WRAP)
+		             		   ).border(1).width(SizeUnit.WRAP)
+		                    ).border(1).width(SizeUnit.WRAP)
+		                ).margin(0, 20)
+				   	   ,
                        new Div(
                            new Div()
                                .floating(Floating.LEFT)
@@ -52,7 +58,7 @@ public class Main {
                                .width(defaultButtonWidth).height(defaultHeight)
                        )
                        ,
-                       new Div(new FlowLayout(),
+                       new Div(
                            new Div()
                                .floating(Floating.LEFT)
                                .addComponent("Port")
@@ -68,17 +74,56 @@ public class Main {
                                .addComponent(new JButton("Stop Connection"))
                                .width(defaultButtonWidth).height(defaultHeight)
                        )
-                   );
+                       ,
+                       new Div(
+                           new Div()
+                               .addComponent("1.row width (10px margin) (10px padding (default)) (1px border)")
+                               .border(1).margin(10).padding(10)
+                           ,
+                           new Div()
+                           	   .addComponent("2.row width (5px margin) (5px padding (default)) (1px border)")
+                               .border(1).margin(5)
+                           ,
+                           new Div()
+                           	   .addComponent("3.row width 5px margin 5px padding 1px border")
+                               .border(1)
+                       ).border(1).margin(0, 20)
+                       ,
+                       new Div(
+                           new Div()
+                               .addComponent(new JButton("Button in default Div"))
+                               .padding(5).margin(5).border(0, 1, 0, 1)
+                           ,
+                           new Div()
+                               .addComponent("Floating: NONE, size: Absolute")
+                               .padding(5, 20).border(5, 10, 15, 20).margin(5)
+                               .width(300).height(200)
+                           ,
+                           new Div()
+                           	   .addComponent("Floating: LEFT, size: Absolute")
+                               .floating(Floating.LEFT)
+                               .width(200).height(400)
+                               .padding(5).border(5).margin(5)
+                           ,
+                           new Div()
+                               .floating(Floating.RIGHT)
+                               .width(200).height(200)
+                               .padding(5).border(5).margin(5)
+                               .addComponent("Floating: RIGHT")
+                       ).padding(5, 20).border(1)
+               );
         
         JFrame frame = new JFrame("JDiv Application"); 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(new DivLayout());
+        frame.getContentPane().setLayout(new GridLayout());
         
         //JPanel panel = renderer.render();
-        frame.add(root);
+        JScrollPane scrollPane = new JScrollPane(root);
+
+        frame.add(scrollPane);
         
-        frame.setSize(appWidth, appHeight);
         frame.setVisible(true);
+        frame.setSize(appWidth, appHeight);
         
     }
     
