@@ -7,16 +7,16 @@ JDiv has 2 base classes;
 
 ## Usage
 Div is added like a JComponent.
-
+```java
     JFrame frame = new JFrame("JDiv Application"); 
     frame.add(new Div());
-
+```
 Div can accept, N Div component as parameter.
-
+```java
     frame.add(new Div(new Div(), new Div(), new Div(), new Div(), new Div(), new Div()));
-
+```
 A Div can be set all parameters with **method chaining**
-
+```java
     frame.add(new Div(
               new Div()
                   .width(200)
@@ -37,3 +37,4 @@ A Div can be set all parameters with **method chaining**
                   .addComponent("just a string for JLabel")
            )
     );
+```
