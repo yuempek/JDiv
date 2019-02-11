@@ -6,14 +6,14 @@ JDiv has 2 base classes;
 2) DivLayout: is Layout manager for divs.
 
 ## Usage
-Div is being added like a JComponent.
+Div is added like a JComponent.
 
     JFrame frame = new JFrame("JDiv Application"); 
     frame.add(new Div());
 
 Div can accept, N Div component as parameter.
 
-    frame.add(new Div(new Div(),new Div(),new Div()));
+    frame.add(new Div(new Div(), new Div(), new Div(), new Div(), new Div(), new Div()));
 
 A Div can be set all parameters with **method chaining**
 
@@ -25,6 +25,7 @@ A Div can be set all parameters with **method chaining**
                   .border(10)
                   .margin(10)
                   .floating("NONE")
+		  .addComponent(new JButton("Button"))
               ,
               new Div()
                   .width(SizeUnit.AUTO)     //AUTO, WRAP, ENLARGE, PIXEL, PERCENTAGE(Not Active)
@@ -33,5 +34,6 @@ A Div can be set all parameters with **method chaining**
                   .border(10, 1, Color.RED) // (ltrb[, Color]) or (leftright, topbottom[, Color]) or (left, top, right, bottom[, Color])
                   .margin(5, 10, 15, 20)    // (ltrb) or (leftright, topbottom) or (left, top, right, bottom)
                   .floating("LEFT")         // NONE: new line, LEFT: snap to right of the previous div, RIGHT: snap to left of the previous right one
+		  .addComponent("just a string for JLabel")
 	          )
 	);
