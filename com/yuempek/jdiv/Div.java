@@ -25,6 +25,7 @@ public class Div extends JPanel {
     public int borderLeft, borderTop, borderRight, borderBottom;
     public int left, top, right, bottom;
     public int height, width;
+    public int absoluteheight, absolutewidth;
     
     public SizeUnit leftUnit, topUnit, rightUnit, bottomUnit;
     public SizeUnit heightUnit, widthUnit;
@@ -43,7 +44,7 @@ public class Div extends JPanel {
     public Div parent;
     
     public LayoutManager contentPanelLayout;
-    
+	
     public Div() {
         this(new DivLayout(), (Div[]) null);
     }
@@ -221,8 +222,12 @@ public class Div extends JPanel {
     }
     
     public Div width(int width, SizeUnit unit) {
-        this.width = width;
+    	this.width = width;
         this.widthUnit = unit;
+        
+        if (unit == SizeUnit.PIXEL) { 
+        	this.absolutewidth = width;
+        }
         
         this.sizeChanged();
         
@@ -251,6 +256,10 @@ public class Div extends JPanel {
         this.height = height;
         this.heightUnit = unit;
         
+        if (unit == SizeUnit.PIXEL) { 
+        	this.absoluteheight = height;
+        }
+        
         this.sizeChanged();
         
         return this;
@@ -259,8 +268,8 @@ public class Div extends JPanel {
     private void sizeChanged() {
         Dimension d = null;
         
-        if (this.isAbsolute()) {
-            d = new Dimension(this.width, this.height);
+        if (this.isAbsolute()) { //TODO do always with absolute value
+            d = new Dimension(this.absolutewidth, this.absoluteheight);
         }
         
         // if d is null prefferedSize will be calculated every time. 
